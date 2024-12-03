@@ -177,7 +177,20 @@ for row in rows:
 
 
 ######## Gold Level: Business Objectives
+### Gold Query#1
+session.execute("""CREATE INDEX ON test.users (region)""")
+session.execute("""SELECT * FROM test.users WHERE region = 'Sub-Saharan Africa'""")
 
+### Gold Query#2
+session.execute("""CREATE INDEX ON test.users (unitcost)""")
+session.execute("""SELECT * FROM test.users WHERE unitcost < 50 ALLOW FILTERING""")
+
+### Gold Query#3
+session.execute("""SELECT SUM(totalrevenue) AS monthly_revenue
+FROM test.users
+WHERE order_date >= '2011-01-01' AND order_date < '2011-12-31'
+ALLOW FILTERING;"""
+                )
 
 # Shutdown the cluster
 cluster.shutdown()
